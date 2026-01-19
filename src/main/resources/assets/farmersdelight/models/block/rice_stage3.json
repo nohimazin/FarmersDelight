@@ -2,6 +2,6 @@
   "parent": "block/cross",
   "render_type": "minecraft:cutout",
   "textures": {
-    "cross": "farmersdelight:block/rice_stage3"
+    "cross": "farmersdelight:block/rice/rice_stage3"
   }
 }
