@@ -36,7 +36,7 @@ public class ItemModels extends ItemModelProvider
 		// Specific cases
 		items.remove(ModItems.SKILLET.get());
 
-		itemGeneratedModel(ModItems.WILD_RICE.get(), resourceBlock(itemName(ModItems.WILD_RICE.get()) + "_top"));
+		itemGeneratedModel(ModItems.WILD_RICE.get(), resourceRiceBlock(itemName(ModItems.WILD_RICE.get()) + "_top"));
 		items.remove(ModItems.WILD_RICE.get());
 
 		itemGeneratedModel(ModItems.BROWN_MUSHROOM_COLONY.get(), resourceBlock(itemName(ModItems.BROWN_MUSHROOM_COLONY.get()) + "_stage3"));
@@ -103,14 +103,19 @@ public class ItemModels extends ItemModelProvider
 				ModItems.CABBAGE_SEEDS.get(),
 				ModItems.TOMATO_SEEDS.get(),
 				ModItems.ONION.get(),
-				ModItems.RICE.get(),
 				ModItems.ROAST_CHICKEN_BLOCK.get(),
 				ModItems.STUFFED_PUMPKIN_BLOCK.get(),
 				ModItems.HONEY_GLAZED_HAM_BLOCK.get(),
-				ModItems.SHEPHERDS_PIE_BLOCK.get(),
-				ModItems.RICE_ROLL_MEDLEY_BLOCK.get()
+				ModItems.SHEPHERDS_PIE_BLOCK.get()
 		);
 		takeAll(items, spriteBlockItems.toArray(new Item[0])).forEach(item -> withExistingParent(itemName(item), GENERATED).texture("layer0", resourceItem(itemName(item))));
+
+		// Rice items with special sprite paths
+		Set<Item> riceItems = Sets.newHashSet(
+				ModItems.RICE.get(),
+				ModItems.RICE_ROLL_MEDLEY_BLOCK.get()
+		);
+		takeAll(items, riceItems.toArray(new Item[0])).forEach(item -> withExistingParent(itemName(item), GENERATED).texture("layer0", resourceRiceItem(itemName(item))));
 
 		// Blocks with flat block textures for their items
 		Set<Item> flatBlockItems = Sets.newHashSet(
@@ -169,8 +174,16 @@ public class ItemModels extends ItemModelProvider
 		return new ResourceLocation(FarmersDelight.MODID, "block/" + path);
 	}
 
+	public ResourceLocation resourceRiceBlock(String path) {
+		return new ResourceLocation(FarmersDelight.MODID, "block/rice/" + path);
+	}
+
 	public ResourceLocation resourceItem(String path) {
 		return new ResourceLocation(FarmersDelight.MODID, "item/" + path);
+	}
+
+	public ResourceLocation resourceRiceItem(String path) {
+		return new ResourceLocation(FarmersDelight.MODID, "item/rice/" + path);
 	}
 
 	@SafeVarargs

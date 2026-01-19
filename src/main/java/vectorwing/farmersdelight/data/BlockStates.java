@@ -44,6 +44,10 @@ public class BlockStates extends BlockStateProvider
 		return new ResourceLocation(FarmersDelight.MODID, "block/" + path);
 	}
 
+	public ResourceLocation resourceRiceBlock(String path) {
+		return new ResourceLocation(FarmersDelight.MODID, "block/rice/" + path);
+	}
+
 	public ModelFile existingModel(Block block) {
 		return new ModelFile.ExistingModelFile(resourceBlock(blockName(block)), models().existingFileHelper);
 	}
@@ -135,13 +139,13 @@ public class BlockStates extends BlockStateProvider
 
 		String riceBag = blockName(ModBlocks.RICE_BAG.get());
 		this.simpleBlock(ModBlocks.RICE_BAG.get(), models().withExistingParent(riceBag, "cube")
-				.texture("particle", resourceBlock(riceBag + "_top"))
-				.texture("down", resourceBlock(riceBag + "_bottom"))
-				.texture("up", resourceBlock(riceBag + "_top"))
-				.texture("north", resourceBlock(riceBag + "_side_tied"))
-				.texture("south", resourceBlock(riceBag + "_side_tied"))
-				.texture("east", resourceBlock(riceBag + "_side"))
-				.texture("west", resourceBlock(riceBag + "_side"))
+				.texture("particle", resourceRiceBlock(riceBag + "_top"))
+				.texture("down", resourceRiceBlock(riceBag + "_bottom"))
+				.texture("up", resourceRiceBlock(riceBag + "_top"))
+				.texture("north", resourceRiceBlock(riceBag + "_side_tied"))
+				.texture("south", resourceRiceBlock(riceBag + "_side_tied"))
+				.texture("east", resourceRiceBlock(riceBag + "_side"))
+				.texture("west", resourceRiceBlock(riceBag + "_side"))
 		);
 
 		customDirectionalBlock(ModBlocks.BASKET.get(),
@@ -165,7 +169,7 @@ public class BlockStates extends BlockStateProvider
 
 		this.stageBlock(ModBlocks.BROWN_MUSHROOM_COLONY.get(), MushroomColonyBlock.COLONY_AGE);
 		this.stageBlock(ModBlocks.RED_MUSHROOM_COLONY.get(), MushroomColonyBlock.COLONY_AGE);
-		this.stageBlock(ModBlocks.RICE_CROP_PANICLES.get(), RicePaniclesBlock.RICE_AGE);
+		this.riceStageBlock(ModBlocks.RICE_CROP_PANICLES.get(), RicePaniclesBlock.RICE_AGE);
 		this.customStageBlock(ModBlocks.CABBAGE_CROP.get(), resourceBlock("crop_cross"), "cross", CabbageBlock.AGE, new ArrayList<>());
 		this.customStageBlock(ModBlocks.ONION_CROP.get(), mcLoc("crop"), "crop", OnionBlock.AGE, Arrays.asList(0, 0, 1, 1, 2, 2, 2, 3));
 		this.customStageBlock(ModBlocks.BUDDING_TOMATO_CROP.get(), resourceBlock("crop_cross"), "cross", BuddingTomatoBlock.AGE, Arrays.asList(0, 1, 2, 3, 3));
@@ -208,7 +212,7 @@ public class BlockStates extends BlockStateProvider
 		this.wildCropBlock(ModBlocks.WILD_TOMATOES.get());
 		this.wildCropBlock(ModBlocks.WILD_CARROTS.get());
 		this.wildCropBlock(ModBlocks.WILD_ONIONS.get());
-		this.doublePlantBlock(ModBlocks.WILD_RICE.get());
+		this.riceDoublePlantBlock(ModBlocks.WILD_RICE.get());
 	}
 
 	public ConfiguredModel[] cubeRandomRotation(Block block, String suffix) {
@@ -243,6 +247,16 @@ public class BlockStates extends BlockStateProvider
 					String stageName = blockName(block) + "_stage" + ageSuffix;
 					return ConfiguredModel.builder()
 							.modelFile(models().cross(stageName, resourceBlock(stageName)).renderType("cutout")).build();
+				}, ignored);
+	}
+
+	public void riceStageBlock(Block block, IntegerProperty ageProperty, Property<?>... ignored) {
+		getVariantBuilder(block)
+				.forAllStatesExcept(state -> {
+					int ageSuffix = state.getValue(ageProperty);
+					String stageName = blockName(block) + "_stage" + ageSuffix;
+					return ConfiguredModel.builder()
+							.modelFile(models().cross(stageName, resourceRiceBlock(stageName)).renderType("cutout")).build();
 				}, ignored);
 	}
 
@@ -314,6 +328,14 @@ public class BlockStates extends BlockStateProvider
 				.modelForState().modelFile(models().cross(blockName(block) + "_bottom", resourceBlock(blockName(block) + "_bottom")).renderType("cutout")).addModel()
 				.partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)
 				.modelForState().modelFile(models().cross(blockName(block) + "_top", resourceBlock(blockName(block) + "_top")).renderType("cutout")).addModel();
+	}
+
+	public void riceDoublePlantBlock(Block block) {
+		getVariantBuilder(block)
+				.partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER)
+				.modelForState().modelFile(models().cross(blockName(block) + "_bottom", resourceRiceBlock(blockName(block) + "_bottom")).renderType("cutout")).addModel()
+				.partialState().with(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER)
+				.modelForState().modelFile(models().cross(blockName(block) + "_top", resourceRiceBlock(blockName(block) + "_top")).renderType("cutout")).addModel();
 	}
 
 	public void pieBlock(Block block) {

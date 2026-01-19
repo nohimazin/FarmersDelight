@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"tray_top": "farmersdelight:block/tray_top",
-		"food": "farmersdelight:block/rice_roll_medley",
-		"particle": "farmersdelight:block/rice_roll_medley",
+		"food": "farmersdelight:block/rice/rice_roll_medley",
+		"particle": "farmersdelight:block/rice/rice_roll_medley",
 		"tray_bottom": "farmersdelight:block/tray_bottom"
 	},
 	"elements": [
